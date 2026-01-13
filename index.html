@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Project Management
+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+   <style>
+       
+        body {
+            font-family: 'Inter', 'Tajawal', sans-serif; 
+            background-color: #f1f5f9; 
+            overscroll-behavior: none;
+            margin: 0;
+        }
+        .slide {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+            height: 100%;
+            overflow: hidden;
+        }
+		
+        .slide-visible {
+            display: block;
+        }
+        .slide-hidden {
+            display: none !important;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quiz-option {
+            transition: all 0.2s ease;
+        }
+        .quiz-option.correct {
+            background-color: #d1fae5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+            font-weight: 600;
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+            font-weight: 600;
+        }
+        .quiz-option:disabled:not(.correct):not(.incorrect) {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .quiz-option:disabled {
+            cursor: not-allowed;
+        }
+        .slide-content-wrapper {
+            height: calc(100% - 4rem - 1px);
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+        .slide-content-wrapper::-webkit-scrollbar { width: 8px; }
+        .slide-content-wrapper::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
+        .slide-content-wrapper::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        .slide-content-wrapper::-webkit-scrollbar-thumb:hover { background: #1d4ed8; }
+        #video-modal-content { width: 90%; max-width: 900px; }
+        #youtube-iframe { aspect-ratio: 16 / 9; width: 100%; height: auto; }
+        .slide-header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(241, 245, 249, 0.95);
+            backdrop-filter: blur(5px);
+            padding-top: 0.25rem;
+            padding-bottom: 0.75rem;
+            z-index: 5;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        /* Placeholder style for missing images */
+        img.placeholder-image {
+            background-color: #e2e8f0;
+            border: 2px dashed #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-weight: bold;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+            /* توسيط المحتوى داخل body الجديد */
+            margin: 50px auto; 
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .training-card {
+            background-color: #0d1b3f;
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            width: 48%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding-top: 100px;
+        }
+
+        .card-header {
+            position: absolute;
+            top: -50px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .image-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: white;
+            border: 5px solid #ab141c;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            opacity: 1; 
+        }
+
+        .list {
+            list-style: none;
+            padding: 0;
+            margin-top: 40px;
+            text-align: right;
+            font-size: 1.1em;
+            width: 100%;
+            padding-right: 20px;
+        }
+
+        .list li {
+            margin-bottom: 15px;
+        }
+
+        .timeline-bar {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background-color: #ab141c;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .timeline-text {
+            color: white;
+            font-weight: bold;
+            padding: 0 20px;
+            text-transform: uppercase;
+            font-size: 1.2em;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .left-arrow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-right: 20px solid #ab141c;
+        }
+
+        .right-arrow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -20px;
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid #ab141c;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md w-full p-4 z-10 flex justify-between items-center flex-shrink-0 border-b border-slate-200">
+        <div class="flex items-center min-w-0"> 
+            <div class="w-10 h-10 bg-blue-800 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm">
+                <!-- Icon representing Industrial Equipment -->
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a8 8 0 11-14.856 0M12 21a8 8 0 100-16 8 8 0 000 16z"></path></svg>
+            </div>
+            <div class="ml-3 truncate">
+                <h1 class="text-lg md:text-xl font-bold text-slate-900">Introduction to Project Management
+</h1>
+            </div>
+        </div>
+        <div class="text-sm font-medium text-slate-500 flex-shrink-0 ml-2 bg-slate-100 px-3 py-1 rounded-full" id="slide-counter">Slide 1 / 18</div>
+    </header>
+
+    <!-- Main Slide Container -->
+    <main id="slide-container" class="flex-1 overflow-hidden p-4 md:p-8 lg:p-12 relative">
+        
+        <!-- Slide 0: Title -->
+        <section id="slide-0" class="slide slide-visible flex flex-col justify-center items-center text-center p-4">
+            <div class="bg-white p-10 md:p-16 rounded-2xl shadow-xl max-w-4xl w-full border-t-8 border-blue-800">
+                <span class="block text-sm font-bold text-blue-600 uppercase tracking-widest mb-2">Target Engineering Construction - National Emirates Training</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6">Introduction to Project Management
+  <br/></h1>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div>
+                <p class="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">A comprehensive competency-based course on industrial stationary assets, from Heat Exchangers to Separation Columns.</p>
+                        <button id="start-btn" class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+    Start Course
+</button>
+            </div>
+        </section>
+
+        <!-- Slide 1: Contents-->
+
+<section id="slide-1" class="slide p-6">
+    <h2 class="text-3xl font-bold text-slate-800 mb-6 slide-header">Contents</h2>
+    
+    <div class="slide-content-wrapper">
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-8"> <div class="bg-blue-50 p-8 rounded-xl border border-blue-100 hover:shadow-md transition-shadow">
+                    <ul class="space-y-4 text-slate-700">
+                        
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-semibold text-sm md:text-base">HISTORICAL BACKGROUND</span>
+                        </li>
+
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-semibold text-sm md:text-base">PROJECTS CLASSIFICATION</span>
+                        </li>
+
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-semibold text-sm md:text-base">WHAT IS A PROJECT?</span>
+                        </li>
+
+                        <li class="space-y-3">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="font-bold text-sm md:text-base uppercase">What is Project Management?</span>
+                            </div>
+                            
+                            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-rose-700 font-medium ml-8 text-xs md:text-sm border-l-2 border-rose-200 pl-4">
+                                <li>a. Project Integration Management</li>
+                                <li>b. Project Scope Management</li>
+                                <li>c. Project Time Management</li>
+                                <li>d. Project Cost Management</li>
+                                <li>e. Project Quality Management</li>
+                                <li>f. Project Human Resource Management</li>
+                                <li>g. Project Communication Management</li>
+                                <li>h. Project Risk Management</li>
+                                <li>i. Project Procurement Management</li>
+                            </ul>
+                        </li>
+
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-semibold text-sm md:text-base uppercase">Area of Expertise</span>
+                        </li>
+
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-semibold text-sm md:text-base uppercase">Project Life Cycle</span>
+                        </li>
+
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-semibold text-sm md:text-base uppercase">Project Stakeholders</span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  
+        <!-- Slide 2: HISTORICAL BACKGROUND-->
+<section id="slide-2" class="slide">
+		<div class="slide-content-wrapper">
+
+    <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+          HISTORICAL BACKGROUND
+
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+If we defined the project as organized effort to achieve a goal within time and budget limits and based on pre-determined requirement, we will not be surprised that many of old human achievements (irrigation canals, Dams, Tombs, pyramids, mosques, palaces) can be categorized as project.
+<br><br>
+The ancient Egyptian and other civilized nations used advanced methods of project planning, execution and performance control.
+<br><br>
+Historically, the developments of project management techniques passed along the following phases:-
+<br><br>
+<strong>Ancient Times:</strong><br>
+- Main Characteristics are:<br>
+1. Limited time and budget constraints.<br>
+2. Depends on the leadership and experiences of talented people.<br>
+3. Motivated by the religion or by forcing the labors.<br>
+
+				</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+ <!-- Slide 3: HISTORICAL BACKGROUND -->
+        <section id="slide-3" class="slide">
+		<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+          HISTORICAL BACKGROUND
+
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+<strong>Before Industrialization
+	(Before 1800 AC):
+</strong><br>
+- Main Characteristics are:<br>
+1. Limited time and budget control.<br>
+2. Depends on the special talent of craftsmen and designers. Also, the knowledge and education of some scientific centers were applied.<br>
+3. Motivated by direct award, technical challenges and national spirit.<br>
+<br>
+<strong>Industrialization Age (Factories, Machines and Power) (1800-1900):
+</strong><br>
+- Main Characteristics are:<br>
+1. Establishment and utilization of basic  and applied technical knowledge.
+<br>
+2. Involvement of private and shareholder projects.
+<br>
+3. Perform more control on time, budget and requirements.
+<br>
+4. The implementation of preliminary time plan, organization and other project management techniques.
+<br>
+<br>
+<strong>Modern Time (1900-2000 A.C.);
+</strong><br>
+- Main Characteristics are:<br>
+1. Project management knowledge and application became a well advanced field of application where methods and procedures were applied.
+<br>
+2. Early Beginnings of Scientific Management (Motion & Time Study):
+<br>
+* The prototype of modern time study appears to be the work begun in 1881 by Frederick W. Taylor, 
+<br>
+* The prototype of modern motion study appears to be the work done during the late 1800's and early 1900's by Frank B. Gilbreth resulting in "Motion Study".
+
+				</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+
+        <!-- Slide 3: HISTORICAL BACKGROUND  -->
+       <section id="technical-soft-skills" class="slide ">
+       	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+          HISTORICAL BACKGROUND
+
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+- Motion study is a scientific, analytical procedure for determining a preferable work method, considering: -
+<br>
+a.	The raw materials.<br>
+b.	The design of the product.<br>
+c.	The process or order of work.<br>
+d.	The tools, workplace, and equipment for each individual step in the process.<br>
+e.	The hand and body motions used in each step.<br>
+f.	The criterion of preference is usually economy of money.<br>
+<br>
+<strong>Gantt Charts (Bar Chart):-
+</strong><br>
+* One of the oldest and still one of presenting schedule information is the Gantt Chart, developed around 1917 by Henry L. Gantt, a pioneer in the field of scientific management. 
+<br>
+*The Gantt chart shows planned and actual progress for a number of tasks displayed against a horizontal time scale. It is a particularly effective and easy-to-read method of indicating actual current status for each of a set of tasks compared to the planned progress for each item of the set
+<br>
+				</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+   
+</section>
+
+        <!-- Slide 4:   HISTORICAL BACKGROUND-->
+		 <section id="slide-4" class="slide">
+              	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+          HISTORICAL BACKGROUND
+
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+     <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+                    <img src="images/Picture1.jpg"
+                         alt="Piping Design Fundamental"
+                         class="zoomable max-w-full max-h-full object-contain cursor-zoom-in">
+                </div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+		
+		
+		 <!-- Slide 6:   HISTORICAL BACKGROUND-->
+<section id="slide-5" class="slide">
+      	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+          HISTORICAL BACKGROUND
+
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+<strong>PERT & C.P.M.:
+</strong><br>
+With the exception of Gantt charts, the most common approach to project scheduling is the use of network techniques such as PERT & CPM.<br>
+ The Program Evaluation Of Review Technique was developed by the U.S.<br>
+ Navy in cooperation with Booz Allen Hamilton and the Lockheed Corporation for the Polaris missile/submarine project in 1958.<br>
+ The Critical Path Method was developed by DuPont, Inc. during the same time period.<br>
+<br><br>
+<strong>GERT :
+</strong><br>
+The Graphical Evaluation And Review Technique (GERT) is a network model developed to deal with more complex modeling 
+situations than can be handled by PERT/CMP.GERT combines, signal flow graph theory,	probabilistic networks, PERT/CPM and decision trees all in a single framework.
+<br><br>
+--> Space programs added more advanced project management knowledge and methodologies. The Computer application in project management allowed the application of a very sophisticated planning and control program over the project activities (Open Plan , Primavera and Microsoft Projects).
+<br>
+--> The establishment of national and international organizations for standardization participated in the development and registration of guideline for project management activities in order to improve the quality and achievement of project management
+<br>
+--> Formation of the project management institutes, centers, associations ( PMI, IPMA) which are concerned with the development and application of modern practices in the field of project management.
+<br>
+				</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+	 <!-- Slide 7: PROJECTS CLASSIFICATION-->
+<section id="slide-hse-reviews" class="slide">
+
+    	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECTS CLASSIFICATION
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+<strong>FIELDS OF APPLICATION :-
+</strong><br>
+A. INDUSTRIAL:<br><br>
+	Can be classified according to the application such as:
+<br>
+1. Petroleum Projects (Oil and Gas):- Development, production, processing, refining, petrochemical and transmission.<br>
+2. Metal Projects: Iron, steel, copper, aluminum ... etc.<br>
+3. Chemical Projects.<br>
+4. Equipment Fabrication (Engineering Projects).<br>
+5. Food Projects.<br>
+6. Textile Projects.<br><br>
+
+B. Agricultural Projects.<br>
+C. Commercial Projects.<br>
+D. Housing Project.<br>
+E. Infrastructure Projects.<br>
+F. Information Technology Projects.<br>
+G. Airplanes and Space Projects.<br>
+H. Military Projects.<br>
+
+				</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+        <!-- Slide 8: PROJECTS CLASSIFICATION -->
+       		 <section id="slide-4" class="slide">
+      <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECTS CLASSIFICATION
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+<strong>- CLASSIFICATION OF PROJECTS BASED ON SIZE (TOTAL INSTALLED COST OR TOTAL NUMBER OF MANHOURS INVOLVED).
+</strong><br>
+--> Small size project (up to 10 million U.S. $).<br>
+--> Medium size project (up to 50 million U.S. $).<br>
+--> Large size project (up to 500 million U.S. $).<br>
+--> Mega Project (more than 500 million U.S. $).<br><br>
+
+** 	The categorization may differ from one country to another and can be also changed from one organization to another based on the corporate capital investment and size 
+<br><br>
+<strong>- CLASSIFICATION OF PROJECTS BASED ON COMPLEXITY:<br></strong>
+--> Grace root; one site and single phase project.<br>
+--> Modification of existing project.<br>
+--> Multiple sites project.<br>
+--> New application or photo type projects.<br>
+--> Licensed projects.
+<br><br>
+<strong>- CLASSIFICATION OF PROJECTS BASED ON THE NATURE OF THE SITE:-<br></strong>
+--> Onshore projects.<br>
+--> Offshore projects.<br>
+--> Space projects.<br><br>
+
+				</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+	
+
+        <!-- Slide 9: PROJECTS CLASSIFICATION -->
+        <section id="slide-8" class="slide">
+         	   
+		 <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECTS CLASSIFICATION
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+<strong>- CLASSFICATION OF PROJECTS BASED ON THE REGIONAL LOCATION:-</strong>
+<br>
+--> Local or national projects.<br>
+--> International Projects.
+<br>
+--> Intercontinental Projects.
+<br>
+<br>
+<strong>- CLASSFICATION OF PROJECTS BASED ON THE OWNERSHIP:</strong>
+<br>
+--> Private Projects.
+<br>
+--> Governmental Projects.
+<br>
+--> Non-Profit Organization Projects.
+<br>
+--> Shore holders Projects.
+<br>
+--> Joint Venture Projects.
+<br>
+--> Consortium Projects.
+
+<br><br>
+<strong>- MIXED CLASSFICATION OF PROJECTS:-</strong>
+<br>
+--> We can use the mixed classification to identify some projects like "Offshore Oil Production Project."
+
+
+				</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+
+ <!-- Slide 10: WHAT IS A PROJECT? -->
+          <section id="slide-8" class="slide">
+         	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS A PROJECT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+	A project is a temporary endeavor undertaken to create a unique product, service, or result.
+<br><br>
+<strong>--> Temporary endeavor<br></strong>
+- Every project has a definite beginning and a definite end<br>
+- Does not mean short duration<br><br>
+<strong>--> Undertaken to create a unique product, service or result<br></strong>
+- A product or artifact that is produced, is quantifiable, and can be either an end item in itself or a component item<br>
+- A capability to perform a service, such as business functions supporting production or distribution<br>
+- A result, such as outcomes or documents<br><br>
+<strong>--> Progressive Elaboration<br></strong>
+- Developing in steps, and continuing in increments<br><br>
+				</p>
+	<p style=" color: red;">
+<strong>What Is a Subproject?</strong><br>
+				</p>
+			<p style=" color: black;">
+1. A manageable component of a project<br>
+2. May be performed by a separate organization<br>
+3. Could be a project phase<br>
+4. Subprojects are typically referred to as projects and managed as such<br>
+				</p>		
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+
+		
+		<!-- Slide 11: WHAT IS A PROJECT? -->
+        <section id="slide-10" class="slide">
+		<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS A PROJECT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+<strong>PROJECTS VS. OPERATIONAL WORK <br></strong>
+	Organizations perform work to achieve a set of objectives. Generally, work can be categorized as either projects or operations, although the two sometimes overlap. 
+<br><br>
+<strong>They share many of the following characteristics:<br></strong>
+- Performed by people <br>
+- Constrained by limited resources <br>
+- Planned, executed, and controlled. 
+<br><br>
+	--> Projects and operations differ primarily in that operations are ongoing and repetitive, while projects are temporary and unique.
+<br><br>
+</p>
+			<p style=" color: black;">
+			Examples of projects include, but are not limited to: <br>
+
+1. Developing a new product or service 
+<br>
+2. Effecting a change in structure, staffing, or style of an organization 
+<br>
+3. Designing a new transportation vehicle 
+<br>
+4. Developing or acquiring a new or modified information system 
+<br>
+5. Constructing a building or facility Building a water system for a community 
+<br>
+6. Running a campaign for political office Implementing a new business procedure or process 
+<br>
+7. Responding to a contract solicitation.
+<br>
+				</p>		
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+		
+		<!-- Slide 12: WHAT IS A PROJECT? -->
+        <section id="slide-11" class="slide">
+		<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS A PROJECT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	Projects are typically authorized as a result of one or more of the following strategic considerations: 
+<br>
+- A market demand (e.g., an oil company authorizes a project to build a new refinery in response to chronic gasoline shortages) 
+ <br>
+- An organizational need (e.g., a training company authorizes a project to create a new course in order to increase its revenues) 
+ <br>
+- A customer request (e.g., an electric utility authorizes a project to build a new substation to serve a new industrial park) 
+<br> <br>
+</p>
+			<p style=" color: black;">
+		--> A technological advance (e.g., a software firm authorizes a new project to develop a new generation of video games after the introduction of new game- playing equipment by electronics firms)
+ <br>
+
+--> A legal requirement (e.g., a paint manufacturer authorizes a project to establish guidelines for the handling of a new toxic material). 
+<br>
+
+				</p>		
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+		
+		 <!-- Slide 13:WHAT IS PROJECT MANAGEMENT?-->
+<section id="slide-12" class="slide">
+   	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS PROJECT MANAGEMENT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** Project management is the application of knowledge, skills, tools and techniques to project activities to meet project requirements.<br>
+	Project management is accomplished through the application and integration of the project management processes of initiating, planning, executing, monitoring and controlling,
+	and closing. The project manager is the person responsible for accomplishing the project objectives. 
+<br><br>
+<strong>Managing a project includes: </strong> <br>
+-Identifying requirements 
+ <br>
+- Establishing clear and achievable objectives 
+<br>
+-Balancing the competing demands for quality, scope, time and cost 
+<br> 
+- Adapting the specifications, plans, and approach to the different concerns and expectations of the various stakeholders. 
+<br><br>
+--> Project managers often talk of a triple constraint, project scope, time and cost, in managing competing project requirements. Project quality is affected by balancing these three factors. 
+<br>
+</p>
+			   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture2.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+		<!-- Slide 14: WHAT IS PROJECT MANAGEMENT? -->
+ <section id="slide-course-content" class="slide">
+   	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS PROJECT MANAGEMENT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+
+			   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/picture3.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+		<!-- Slide 15: WHAT IS PROJECT MANAGEMENT? -->
+      <section id="slide-14" class="slide">
+	   	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS PROJECT MANAGEMENT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+
+			   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/picture4.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+		
+			 <!-- Slide 16:WHAT IS PROJECT MANAGEMENT? -->
+<section id="slide-13" class="slide">
+   	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS PROJECT MANAGEMENT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+
+			   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture5.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+	<!-- Slide 16: WHAT IS PROJECT MANAGEMENT? -->
+      <section id="slide-15" class="slide">
+	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS PROJECT MANAGEMENT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+
+			   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/picture6.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>	
+		
+	  <!-- Slide 17:WHAT IS PROJECT MANAGEMENT? -->
+<section id="slide-hse-induction" class="slide">
+   	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+WHAT IS PROJECT MANAGEMENT?
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** Project management is comprised of the following knowledge areas. 
+<br><br>
+<strong>Project Integration Management  
+ </strong> 
+This knowledge area focuses on project plan develop and execution.
+ <br>
+<strong>Project Scope Management 
+ </strong>
+This knowledge area deals with the planning, creation, protection, and fulfillment of the project scope.<br> 
+<strong>Project Time Management 
+ </strong> 
+ Time management is crucial to project success. This knowledge area covers activities, their characteristics, and how they fit into the project schedule.
+ <br>
+ <strong>Project Cost Management 
+ </strong> 
+Cost is always a constraint in project management. This knowledge area is concerned with the planning, estimating, budgeting, and control of costs.
+ <br>
+ <strong>Project Quality Management 
+ </strong> 
+ This knowledge area centers on quality planning, assurance, and control.
+ <br>
+ <strong>Project Human Resource Management 
+ </strong> 
+ This knowledge area focuses on organizational planning, staff acquisition, and team development. 
+ <br>
+ <strong>Project Communications Management 
+ </strong> 
+ The majority of a project manager's time is spent communicating. This knowledge area details how communications can improve.
+<br>
+ <strong>Project Risk Management 
+ </strong> 
+Every project has risks. This knowledge area focuses on risk planning, analysis, monitoring, and control.
+<br>
+ <strong>Project Procurement Management 
+ </strong> 
+This knowledge area involves planning, solicitation, contract administration, and contract closeout.
+<br>
+ <strong>Project Stakeholder Management 
+ </strong> 
+This knowledge area includes the processes required to identify the people, groups, or organizations that could impact or be impacted by the project.
+
+
+</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+			 <!-- Slide 18:  1.  Project Integration Management -->
+<section id="slide-17" class="slide">
+          	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+1.  Project Integration Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** The processes and activities that integrate the various elements of project management
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture7.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+		
+		 <!-- Slide 19: 2.  Project Scope Management-->
+<section id="slide-18" class="slide">
+        	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+2.  Project Scope Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** The processes involved in ensuring the project includes all the work required, and only the work required, for completing the project successfully
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture8.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+ <!-- Slide 20:3.  Project Time Management-->
+<section id="slide-19" class="slide">
+        	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+3.  Project Time Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** The processes that are used to help ensure the timely completion of the project. 
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture8.1.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+ <!-- Slide 21: 4.  Project Cost Management -->
+<section id="slide-20" class="slide">
+   	<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+4.  Project Cost Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** The processes involved in estimating, budgeting, and controlling costs so that the project can be completed within the approved budget
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture9.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+ <!-- Slide 22:5.  Project Quality Management-->
+<section id="slide-21" class="slide">
+  <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+5.  Project Quality Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** Project Quality Management includes the processes required to ensure that the project will satisfy the needs for which it was undertaken.
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture10.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+<!-- Slide 23: 6.  Project Human Resource Management -->
+<section id="slide-22" class="slide">
+    <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+6.  Project Human Resource Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture11.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+			 <!-- Slide 24: 7.  Project Communications Management-->
+<section id="slide-23" class="slide">
+   <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+7.  Project Communications Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** The processes that are required to ensure timely and appropriate planning, collection, creation, distribution, storage, retrieval, management, control, monitoring, and the ultimate disposition of project information
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture12.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+<!-- Slide 25: 8.  Project Risk Management-->
+<section id="slide-24" class="slide p-6">
+      <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+8.  Project Risk Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** Processes of conducting risk management planning, identification, analysis, response planning, and controlling risk on a project.
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture13.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+
+
+<!-- Slide 26:9. Project Procurement Management-->
+    <section id="slide-13" class="slide">
+     <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+9. Project Procurement Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** The processes required to acquire goods and services, to attain project scope, from outside the performing organization
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture14.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+		       
+		
+		<!-- Slide 27:10. Project Stakeholder Management-->
+<section id="slide-26" class="slide">
+   <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+10. Project Stakeholder Management
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** The processes required to identify the people, groups, or organizations that could impact or be impacted by the project, to analyze stakeholder expectations and their impact on the project, and to develop appropriate management strategies for effectively engaging stakeholders in project decisions and execution
+<br>
+<br>
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture15.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+		
+			 <!-- Slide 28:  PM KNOWLEDGE AREAS & PROCESS GROUPS-->
+<section id="slide-27" class="slide">
+ <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+ PM KNOWLEDGE AREAS & PROCESS GROUPS
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture16.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>	
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+	 <!-- Slide 29: AREAS OF EXPERTISE-->
+<section id="slide-28" class="slide">
+    <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+AREAS OF EXPERTISE
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+
+	** 	Project managers typically need other managerial skills to be successful. Several of the skills you can learn from a book, but most skills come from experience, emulating others, and sheer talent. Let's take a quick look at some of the attributes of a successful project manager.
+<br>
+<br>
+<strong> Communications </strong><br>
+--> It's been said that project managers spend 90 percent of their time communicating. That's understandable when you consider the meetings, the documentation of work, and the expression of ideas, requirements, and desired results that go into a project. Formal communications are mapped out in the Communication Management Plan, but the art of communicating comes from experience and practice.
+<br><br>
+<strong> Budget Management  </strong><br>
+--> All businesses have a responsibility to the monies they are allotted, have earned, and have acquired through donations. In project management, the work completed within a project must be measured for value and accounted for. The budget the organization has set for the project must be guarded. Ultimately, the success of the project should generate an increase in funds, productivity, or efficiency for the sponsoring organization.
+<br><br>
+<strong> Negotiation Skills </strong><br>
+--> Negotiation is giving and taking so that both parties can live with the outcome of the 'deal.' For example, your project may need more electrical engineers, while another project manager needs more business analysts. Can you and the other project manager come to agreement to offset each other's business needs? Is one resource more valuable than the other? 
+<br><br>
+<strong> Team Leadership </strong><br>
+--> Managing a project team is different than leading a project team.
+ It has been said that you manage things, but lead people. 
+ In project management, you must create a relationship between the project team members and yourself to excite, motivate, and inspire the workers to move toward the strategy and vision of the project deliverable. 
+ Management requires that you organize, document, and enforce the project plan so that the work progresses to completion. The marriage of leadership and management is necessary for truly successful project management.
+<br><br>
+
+</p>
+
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>		
+		
+		   <!-- Slide 30: AREAS OF EXPERTISE -->
+  <section id="slide-27" class="slide">
+       <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+AREAS OF EXPERTISE
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+<strong> General Management Knowledge and Skills  </strong><br><br>
+ General management encompasses planning, organizing, staffing, executing, and controlling the operations of an ongoing enterprise. It includes supporting disciplines such as: 
+<br>
+- Financial management and accounting <br>
+- Purchasing and procurement <br>
+- Sales and marketing 
+<br>
+- Contracts and commercial law <br>
+- Manufacturing and distribution <br>
+- Logistics and supply chain <br>
+- Strategic planning, tactical planning, and operational planning <br>
+- Organizational structures, organizational behavior, personnel administration, compensation, benefits, and career paths <br>
+- Health and safety practices <br>
+- Information technology. 
+<br><br>
+--> General management provides the foundation for building project management skills and is often essential for the project manager. On any given project, skill in any number of general management areas may be required. General management literature documents these skills, and their application is fundamentally the same on a project
+
+</p>
+
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+				  <!-- Slide 31: PROJECT LIFE CYCLE -->
+<section id="slide-hse-induction" class="slide">
+       <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT LIFE CYCLE 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+--> Project managers or the organization can divide projects into phases to provide better management control with appropriate links to the ongoing operations of the performing organization. Collectively, these phases are known as the project life cycle. Many organizations identify a specific set of life cycles for use on all of their projects. 
+<br><br>
+--> The project life cycle defines the phases that connect the beginning of a project to its end. For example, when an organization identifies an opportunity to which it would like to respond, it will often authorize a feasibility study to decide whether it should undertake the project. The project life cycle definition can help the project manager clarify whether to treat the feasibility study as the first project phase or as a separate, stand-alone project. Where the outcome of such a preliminary effort is not clearly identifiable, it is best to treat such efforts as a separate project. 
+<br><br>
+--> The transition from one phase to another within a project’s life cycle generally involves, and is usually defined by, some form of technical transfer or handoff. Deliverables from one phase are usually reviewed for completeness and accuracy and approved before work starts on the next phase. However, it is not uncommon for a phase to begin prior to the approval of the previous phase’s deliverables, when the risks involved are deemed acceptable. This practice of overlapping phases, normally done in sequence, is an example of the application of the schedule compression technique called fast tracking. 
+
+<strong>Project life cycles generally define: </strong>
+1. What technical work to do in each phase (for example, in which phase should the architect’s work be performed?) <br>
+2. When the deliverables are to be generated in each phase and how each deliverable is reviewed, verified, and validated <br>
+3. Who is involved in each phase (for example, concurrent engineering requires that the implementers be involved with requirements and design) <br>
+4. How to control and approve each phase.<br> 
+
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture17.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+		
+	 <!-- Slide 32: PROJECT LIFE CYCLE  -->
+<section id="slide-26" class="slide">
+  <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT LIFE CYCLE 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture18.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+	
+
+	 <!-- Slide 33: PROJECT LIFE CYCLE  -->
+<section id="slide-26" class="slide">
+<div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT LIFE CYCLE 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture19.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>
+	
+
+
+		 <!-- Slide 34: PROJECT LIFE CYCLE- -->
+<section id="slide-33" class="slide">
+     <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT LIFE CYCLE
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+        
+		<p style=" color: black;">
+
+<strong> Most project life cycles share a number of common characteristics:  </strong><br>
+--> Phases are generally sequential and are usually defined by some form of technical information transfer or technical component handoff. <br><br>
+--> Cost and staffing levels are low at the start, peak during the intermediate phases, and drop rapidly as the project draws to a conclusion. Figure below illustrates this pattern. <br><br>
+
+
+- The level of uncertainty is highest and, hence, risk of failing to achieve the objectives is greatest at the start of the project. The certainty of completion generally gets progressively better as the project continues. 
+<br><br>
+- The ability of the stakeholders to influence the final characteristics of the project’s product and the final cost of the project is highest at the start, and gets progressively lower as the project continues. Figure below illustrates this. A major contributor to this phenomenon is that the cost of changes and correcting errors generally increases as the project continues. 
+</p>
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture20.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>		
+	
+		 <!-- Slide 34: PROJECT STAKEHOLDERS - -->
+<section id="slide-33" class="slide">
+   <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT STAKEHOLDERS 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+   
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture21.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>	
+		
+		<!-- Slide 34:  PROJECT STAKEHOLDERS - -->
+<section id="slide-33" class="slide">
+    <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT STAKEHOLDERS 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+   <p style=" color: black;">
+Key stakeholders on every project include: 
+<br>
+<strong> --> Project manager.   </strong><br>
+The person responsible for managing the project. <br><br>
+<strong> --> Customer/user.   </strong><br>
+The person or organization that will use the project’s product.
+ There may be multiple layers of customers. For example, 
+ the customers for a new pharmaceutical product can include the doctors who 
+ prescribe it, the patients who take it and the insurers who pay for it
+ . In some application areas, customer and user are synonymous, while in others,
+ customer refers to the entity acquiring the project’s product and users are those
+ who will directly utilize the project’s product. <br><br>
+
+</p>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>	
+
+		 <!-- Slide 34: PROJECT STAKEHOLDERS - -->
+<section id="slide-33" class="slide">
+    <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT STAKEHOLDERS 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture22.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+</section>	
+		
+	 <!-- Slide 8: PROJECT STAKEHOLDERS  -->
+        <section id="slide-7" class="slide">
+		  <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT STAKEHOLDERS 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture23.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+
+ <!-- Slide 8: PROJECT STAKEHOLDERS  -->
+        <section id="slide-7" class="slide">
+	  <div class="slide-content-wrapper">
+
+       <div class=" bg-white p-10 md:p-16 ">
+        
+        <span class="block text-sm font-bold text-red-700 uppercase tracking-widest mb-2">TARGET QUALITY MANAGEMENT SYSTEM</span>
+        
+        <h4 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight" >
+PROJECT STAKEHOLDERS 
+        </h4>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div> 
+	   <div class="w-1/2 bg-gray-50 flex flex-col items-center justify-center h-full overflow-hidden w-[90px] lg:w-[800px] mx-auto">
+    
+    <div class="w-full h-full bg-slate-100 overflow-hidden rounded-xl shadow-md flex items-center justify-center">
+        
+        <img src="images/Picture24.jpg"
+             alt="صورة اجتماع تعريفي لـ HSE"
+             class="zoomable max-w-full max-h-full object-contain cursor-zoom-in mx-auto">
+             
+    </div>
+</div>
+        <div class="w-full">
+            <div class="flex justify-end">
+                <div class="text-4xl font-extrabold text-slate-800">
+                    <span class="text-red-700">T</span>ARGET
+                </div>
+            </div>
+        </div>
+          </div>
+    </div>
+        </section>
+
+
+<!-- Slide 59: Conclusion -->
+        <section id="slide-58" class="slide flex flex-col justify-center items-center text-center p-4">
+             <div class="bg-white p-10 md:p-16 rounded-2xl shadow-xl max-w-4xl w-full">
+                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">✓</div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Course Complete</h1>
+                <p class="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">Thank You</p>
+                <button onclick="location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-full shadow-lg">
+                    Restart Course
+                </button>
+            </div>
+        </section>
+		
+		
+   </main>
+
+
+
+    <!-- Footer: Nav -->
+       <footer class="bg-white shadow-inner p-4 z-10 flex-shrink-0 border-t border-slate-200">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <button id="prev-btn" class="bg-white border border-slate-300 text-slate-700 font-bold py-2 px-6 rounded-lg shadow-sm hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            Previous
+        </button>
+        <div class="flex-1 mx-4">
+            <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out" style="width: 0%;"></div> 
+            </div>
+        </div>
+        <button id="next-btn" class="bg-blue-800 text-white font-bold py-2 px-6 rounded-lg shadow hover:bg-blue-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            Next
+        </button>
+    </div>
+</footer>
+
+  <!-- Zoom Overlay -->
+<div id="zoomOverlay"
+     class="hidden fixed inset-0 bg-black/80 flex items-center justify-center overflow-hidden z-50">
+    <img id="zoomedImage"
+         class="max-w-[90%] max-h-[90%] rounded-lg transition-transform cursor-zoom-out"
+         src="">
+</div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevButton = document.getElementById('prev-btn');
+        const nextButton = document.getElementById('next-btn');
+        const slideCounter = document.getElementById('slide-counter');
+        const progressBar = document.getElementById('progress-bar');
+        
+        // ** إضافة متغير حالة البدء وربط زر Start **
+        let isStarted = false; 
+        const startButton = document.getElementById('start-btn'); // يجب أن يكون هذا الـ ID موجوداً في HTML الشريحة 0
+        // ... (بقية المتغيرات)
+
+        const videoModal = document.getElementById('video-modal');
+        const videoModalContent = document.getElementById('video-modal-content');
+        const youtubeIframe = document.getElementById('youtube-iframe');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const playVideoBtns = document.querySelectorAll('.play-video-btn');
+
+        function showSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            
+            slides[currentSlideIndex].classList.remove('slide-visible');
+            slides[currentSlideIndex].classList.add('slide-hidden');
+            
+            slides[index].classList.remove('slide-hidden');
+            slides[index].classList.add('slide-visible');
+            
+            currentSlideIndex = index;
+            updateNavigation();
+            
+            // Scroll top content
+            const content = slides[index].querySelector('.slide-content-wrapper');
+            if (content) content.scrollTop = 0;
+        }
+
+        function updateNavigation() {
+            slideCounter.textContent = `Slide ${currentSlideIndex + 1} / ${totalSlides}`;
+            const progressPercentage = ((currentSlideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            prevButton.disabled = (currentSlideIndex === 0);
+            
+            // ** المنطق المُعدّل لزر Next **
+            // يتم التعطيل فقط إذا: 
+            // 1. كنا في الشريحة الأخيرة.
+            // 2. أو كنا في الشريحة 0 ولم نضغط على Start بعد.
+            const shouldBeDisabled = (currentSlideIndex === totalSlides - 1) || 
+                                     (currentSlideIndex === 0 && !isStarted);
+                                     
+            nextButton.disabled = shouldBeDisabled;
+        }
+
+        prevButton.addEventListener('click', () => showSlide(currentSlideIndex - 1));
+        
+        // ** ملاحظة: زر Next سيتفعل تلقائياً بعد الانتقال للشريحة 1 **
+        nextButton.addEventListener('click', () => showSlide(currentSlideIndex + 1));
+
+        // ** مستمع حدث زر Start (التعديل الرئيسي) **
+        if (startButton) {
+            startButton.addEventListener('click', () => {
+                isStarted = true; // تفعيل حالة البدء
+                
+                // الانتقال إلى الشريحة التالية (الشريحة 1)
+                showSlide(currentSlideIndex + 1);
+                
+                // إخفاء زر Start بعد بدء الدورة
+                // إذا لم تكن تريد إخفاءه، احذف السطر التالي
+                startButton.classList.add('hidden'); 
+            });
+        }
+        
+        // ... (بقية أكواد الـ Video Modals والـ Zoom)
+
+        const zoomableImages = document.querySelectorAll(".zoomable");
+        const overlay = document.getElementById("zoomOverlay");
+        const zoomImg = document.getElementById("zoomedImage");
+
+        let scale = 1;
+        let isDragging = false;
+        let startX, startY;
+        let translateX = 0;
+        let translateY = 0;
+
+        zoomableImages.forEach(img => {
+            img.addEventListener("click", () => {
+                zoomImg.src = img.src;
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                zoomImg.style.transform = `translate(0px, 0px) scale(1)`;
+                overlay.classList.remove("hidden");
+            });
+        });
+
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) {
+                overlay.classList.add("hidden");
+            }
+        });
+
+        zoomImg.addEventListener("wheel", (e) => {
+            e.preventDefault();
+            scale += e.deltaY < 0 ? 0.1 : -0.1;
+            if (scale < 1) scale = 1;
+            if (scale > 5) scale = 5;
+            zoomImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        });
+
+        zoomImg.addEventListener("mousedown", (e) => {
+            if (scale <= 1) return;
+            isDragging = true;
+            zoomImg.style.cursor = "grabbing";
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+        });
+
+        zoomImg.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            zoomImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        });
+
+        zoomImg.addEventListener("mouseup", () => {
+            isDragging = false;
+            zoomImg.style.cursor = "grab";
+        });
+
+        zoomImg.addEventListener("mouseleave", () => {
+            isDragging = false;
+        });
+        
+        // تهيئة البدء
+        updateNavigation();
+    });
+</script>
+
+</body>
+</html>
